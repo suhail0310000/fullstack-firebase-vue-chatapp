@@ -9,8 +9,10 @@
 import { ref } from 'vue'
 import firebase from 'firebase/app'
 import { useRouter } from 'vue-router' // import router
+
 const email = ref('')
 const password = ref('')
+const message = ref('')
 const router = useRouter() // get a reference to our vue router
 const signIn = () => { // we also renamed this method 
   firebase
@@ -19,11 +21,11 @@ const signIn = () => { // we also renamed this method
     .then((data) => {
       console.log('Successfully logged in!');
       console.log(data);
-      router.push('/feed') // redirect to the feed
+      router.push('/') // redirect to the feed
     })
     .catch(error => {
       console.log(error.code)
       alert(error.message);
-    });
+    })
 }
 </script>

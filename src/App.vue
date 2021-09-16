@@ -1,23 +1,26 @@
 <template>
   <div>
     <nav>
-      <router-link to="/"> Home </router-link> |
-      <router-link to="/feed"> Feed </router-link> |
+      <router-link to='/'> Home </router-link> |
+      <router-link to='/chatroom'> Chatroom </router-link> |
       <span v-if="isLoggedIn"> 
         <button @click="signOut"> Logout </button> 
       </span>
       <span v-else>
-        <router-link to="/register"> Register </router-link> |
-        <router-link to="/sign-in"> Login </router-link>
+        <router-link to='/register'> Register </router-link> |
+        <router-link to='/login'> Login </router-link>
       </span>
     </nav>
     <router-view />
   </div>
 </template>
+
 <script setup>
 import { ref } from 'vue' // used for conditional rendering
 import firebase from 'firebase'
 import { useRouter } from 'vue-router'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 const router = useRouter()
 const isLoggedIn = ref(true)
 // runs after firebase is initialized
