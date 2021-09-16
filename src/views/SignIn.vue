@@ -2,7 +2,8 @@
     <h1> Login to Your Account </h1>
     <p> <input type='text' placeholder="Email" v-model='email'/> </p>
     <p> <input type='password' placeholder="Password" v-model='password'/> </p>
-    <p> <button @click="signIn"> Submit </button> </p>
+    <p> <button @click="signIn"> Submit </button> </p> 
+
 </template>
 
 <script setup>
@@ -19,7 +20,7 @@ const signIn = () => { // we also renamed this method
     .then((data) => {
       console.log('Successfully logged in!');
       console.log(data);
-      router.push('/feed') // redirect to the feed
+      router.push('/Chatroom') // redirect to the feed
     })
     .catch(error => {
       console.log(error.code)

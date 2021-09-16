@@ -19,7 +19,7 @@ const register = () => {
     .then((data) => {
       console.log('Successfully registered!');
       console.log(data)
-      router.push('/feed') // redirect to the feed
+      router.push('/Chatroom') // redirect to the chatroom
     })
     .catch(error => {
       console.log(error.code)
