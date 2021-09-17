@@ -3,24 +3,16 @@ import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
-    // {
-    //   path: '/',
-    //   component: () => import('../views/Home.vue')
-    // },
     {
       path: '/',
       component: () => import('../views/Register.vue')
     },
     {
-      path: '/sign-in',
+      path: '/signIn',
       component: () => import('../views/SignIn.vue')
     },
-    // {
-    //   path: '/feed',
-    //   component: () => import('../views/Feed.vue')
-    // },
     {
-      path: '/chatroom',
+      path: '/Chatroom',
       component: () => import('../views/Chatroom.vue')
     }
   ]

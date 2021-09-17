@@ -1,18 +1,14 @@
 <template>
   <div>
     <nav>
-      <span v-if="isLoggedIn">
-        <div class="loggedInNav">
-          <p>HEIIIII diplay emai </p>
-          <button @click="signOut"> Logout </button> 
-        </div>
+      <router-link to='/Chatroom'> Chatroom </router-link> |
+      <span v-if="isLoggedIn"> 
+        <button @click="signOut"> Logout </button> 
       </span>
       <span v-else>
-        <router-link to="/"> Register </router-link> |
-        <router-link to="/sign-in"> Login </router-link>
+        <router-link to='/'> Register </router-link> |
+        <router-link to='/SignIn'> Login </router-link>
       </span>
-      <!-- <router-link to="/"> Home </router-link> | -->
-      <!-- <router-link to="/chatroom"> Chatroom </router-link> | -->
     </nav>
       
     <router-view />
@@ -22,9 +18,9 @@
 
 <script setup>
 import { ref } from 'vue' // used for conditional rendering
-import firebase from 'firebase/app'
+import firebase from 'firebase'
 import { useRouter } from 'vue-router'
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const router = useRouter()
 const isLoggedIn = ref(true)
@@ -38,10 +34,9 @@ firebase.auth().onAuthStateChanged(function(user) {
 })
 const signOut = () => {
   firebase.auth().signOut()
-  router.push('/')
+  router.push('/SignIn')
 }
 </script>
-
 <style>
 .loggedInNav {
   margin: auto;
