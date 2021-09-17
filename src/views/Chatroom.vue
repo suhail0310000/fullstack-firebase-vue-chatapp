@@ -2,28 +2,28 @@
     <!--<h1> Chatroom </h1>
     <h3> This page is for users only </h3>-->
     <div class="container">
-<h3 class=" text-center">Messaging</h3>
+<h3 class=" text-center">Meldinger</h3>
 <div class="messaging">
       <div class="inbox_msg">
         <div class="inbox_people">
           <div class="headind_srch">
             <div class="recent_heading">
-              <h4>Recent</h4>
+              <h4> Du er logget inn som: {{ authUser.email }}</h4>
             </div>
-            <div class="srch_bar">
+           <!-- <div class="srch_bar">
               <div class="stylish-input-group">
                 <input type="text" class="search-bar"  placeholder="Search" >
                 <span class="input-group-addon">
                 <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
                 </span> </div>
-            </div>
+            </div>-->
           </div>
           <div class="inbox_chat">
             <div class="chat_list active_chat">
               <div class="chat_people">
                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
                 <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
+                  <h5>{{ authUser.email }} <span class="chat_date">Dec 25</span></h5>
                   <p>Test, which is a new approach to have all solutions 
                     astrology under one roof.</p>
                 </div>
@@ -123,7 +123,7 @@ import { onBeforeUnmount } from 'vue'
 import { projectFirestore } from '../main'
 
 const router = useRouter()
-const authListener = firebase.auth().onAuthStateChanged(function(user) {
+/*const authListener = firebase.auth().onAuthStateChanged(function(user) {
     if (!user) { // not logged in
         alert('you must be logged in to view this. redirecting to the home page')
         router.push('/')
@@ -132,7 +132,7 @@ const authListener = firebase.auth().onAuthStateChanged(function(user) {
 onBeforeUnmount(() => {
 //     clear up listener
     authListener()
-})
+})*/
 
 export default {
     name: 'chatroom',
@@ -150,7 +150,7 @@ export default {
             //save to firestore
             projectFirestore.collection('chat').add({
                 message:this.message,
-                author:this.authUser.displayName,
+                author:this.authUser.email,
                 createdAt: new Date()
             })
 
@@ -168,6 +168,7 @@ export default {
             })
         }
     },
+    
     created(){
 
       firebase.auth().onAuthStateChanged(user=>{
@@ -175,6 +176,7 @@ export default {
           this.authUser=user;
         }else{
           this.authUser={}
+        
         }
       })
       
@@ -189,14 +191,14 @@ export default {
         firebase.auth().onAuthStateChanged(user=>{
 
           if(user){
-
             next();
+          
           }else{
-            vm.$router.push('/')
+            alert('you must be logged in to view this. redirecting to the login page')
+            vm.$router.push('/signin')
+
           }
         })
-
-
 
 
       })

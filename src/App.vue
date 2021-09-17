@@ -8,7 +8,7 @@
       </span>
       <span v-else>
         <router-link to='/register'> Register </router-link> |
-        <router-link to='/login'> Login </router-link>
+        <router-link to='/signin'> Login </router-link>
       </span>
     </nav>
     <router-view />

@@ -1,5 +1,5 @@
 <template>
-    <h1> Create an Account </h1>
+    <h1> Registrer en google bruker for å logge inn </h1>
     <p> <input type='text' placeholder="Email" v-model='email'/> </p>
     <p> <input type='password' placeholder="Password" v-model='password'/> </p>
     <p> <button @click="register"> Submit </button> </p>
@@ -25,6 +25,7 @@ const register = () => {
       console.log(error.code)
       alert(error.message);
     });
+    
 }
 </script>
 
