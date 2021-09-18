@@ -11,7 +11,7 @@
               <h6>Your logged in as: {{ authUser.email }}</h6>
             </div>
           </div>
-          <div class="inbox_chat">
+          <!-- <div class="inbox_chat">
             <div class="chat_list active_chat">
               <div class="chat_people">
                 <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
@@ -82,27 +82,44 @@
                 </div>
               </div>
             </div>
+          </div> -->
+          <div class="inbox_chat">
+            <div class="chat_list active_chat" style="border-top:solid black 2px;" v-for="user in allUsers" :key="user.id">
+                <i class="material-icons" @click="getUser(user.id)">delete</i>
+                <div class="chat_people">
+                    <div class="chat_ib">
+                        <h5>{{ user.displayName }}</h5>
+                        <p> {{ user.email }}</p>
+                    </div>
+                </div>
+            </div>
           </div>
         </div>
+        
         <div class="mesgs">
           <div class="msg_history">
-            <div v-for="message in messages" :key="message" class="incoming_msg">
+            <div class="mesgs" v-if="profile">
+              <h2>Test</h2>
+              <h5>Click on a user to chat with {{ profile.name }}</h5>
+            </div>
+            <!-- <div v-for="message in messages" :key="message" class="incoming_msg">
 
               <div :class="[message.author===authUser.displayName?'sent_msg':'received_msg']">
                 <div class="received_withd_msg">
                   <p>{{message.message}}</p>
                   <span class="time_date"> {{ message.author }}</span></div>
               </div>
-            </div>
+            </div> -->
             
           </div>
+
           <div class="type_msg">
             <div class="input_msg_write">
               <input @keyup.enter="saveMessage" v-model="message" type="text" class="write_msg" placeholder="Type a message" />
               <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
             
     </div></div>
@@ -134,38 +151,80 @@ export default {
         return {
             message:null,
             messages:[],
+            profile: null,
+            allUsers:[],
             authUser:{}
         }
     },  
 
     methods:{
-        saveMessage(){
-            //save to firestore
-            projectFirestore.collection('chat').add({
-                message:this.message,
-                author:this.authUser.email, //Display email
-                createdAt: new Date()
-            })
+      getUser(id){
+        console.log(id);
+        this.$router.push({name: 'Chatroom', params: { id: id }})
+        //this.$router.push({name: 'Chatroom', params: { id: id}})
 
-            this.message=null;
-        },
 
-        //List all messages
-        fetchMessages(){
-            projectFirestore.collection('chat').orderBy('createdAt').onSnapshot((querySnapshot)=>{
-                let allMessages=[];
-                querySnapshot.forEach(doc=>{
-                    allMessages.push(doc.data())
-                })
 
-                this.messages=allMessages; 
-            })
+        //this.$router.push({path: '/Profile', params: { id: id }});
+        
+        // this.$router.push('/Chatroom', { params: { id: id }});
+          // this.smoothies = this.smoothies.filter(smoothie=>{
+          //     return smoothie.id != id;
+          // })
+      },
+      // fetchOneUser(id){
+      //   console.log(id);
+      // },
+      fetchUsers(){
+        projectFirestore.collection('users').get().then(users =>{
+          users.docs.forEach(doc => {
+            let user = doc.data()
+            user.id = doc.id; //Iden over mot autogenerert id
+            this.allUsers.push(user);
+            console.log("data",doc.data(),doc.id);
+          })
+        })
+      },
+
+      saveMessage(){
+          //save to firestore
+          projectFirestore.collection('chat').add({
+              message:this.message,
+              author:this.authUser.email, //Display email
+              createdAt: new Date()
+          })
+          this.message=null;
+      },
+
+      //List all messages
+      fetchMessages(){
+          projectFirestore.collection('chat').orderBy('createdAt').onSnapshot((querySnapshot)=>{
+              let allMessages=[];
+              querySnapshot.forEach(doc=>{
+                  allMessages.push(doc.data())
+              })
+              this.messages=allMessages; 
+              //console.log("HEER",this.messages);
+              //.log("etter",allMessages);
+
+          })
         }
     },
 
     //When the user is created
     created(){
+      let referenceUser = projectFirestore.collection('users')
+      referenceUser.doc(this.$route.params.id).get()
+      .then(user => {
+        console.log("nyeeee",user.data());
+        this.profile = user.data();
+        console.log("skal fungere");
+        console.log("profile",this.profile);
+      });
 
+      this.fetchUsers();
+      // this.fetchUsers();
+      // this.fetchOneUser();
       firebase.auth().onAuthStateChanged(user=>{
         if(user){
           this.authUser=user;
@@ -175,8 +234,6 @@ export default {
       })
       
       this.fetchMessages();
-      
-
     },
 
     //If the user is logged in, redirect to chatroom
@@ -195,6 +252,7 @@ export default {
       })
     }
 }
+
 
   
 </script>
