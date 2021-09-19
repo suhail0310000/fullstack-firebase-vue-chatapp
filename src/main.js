@@ -5,6 +5,7 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/auth'
 import 'bootstrap/dist/css/bootstrap.min.css'
+import './assets/styles.css'
 
 
 /* code from our Firebase console */

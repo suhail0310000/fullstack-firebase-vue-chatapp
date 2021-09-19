@@ -14,6 +14,10 @@ const router = createRouter({
     {
       path: '/Chatroom',
       component: () => import('../views/Chatroom.vue')
+    },
+    {
+      path: '/userlist',
+      component: () => import('../views/Userlist.vue')
     }
   ]
 })

@@ -5,7 +5,7 @@
       <div class="form-group my-3">
         <h4>Signup to Chat</h4>
         <input
-          type="textttt"
+          type="text"
           v-model="name"
           class="form-control mb-4 mt-4"
           placeholder="Enter your name..."
