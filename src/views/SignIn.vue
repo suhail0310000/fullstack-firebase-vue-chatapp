@@ -32,55 +32,29 @@
   </div>
 </template>
 
-<script>
-import firebase from "firebase/app";
-import Vue from "vue";
-export default {
-  app: "Login",
-  data() {
-    return {
-      email: "",
-      password: ""
-    };
-  },
-  methods: {
-    login() {
-      const auth = firebase.auth();
-      auth
-        .signInWithEmailAndPassword(this.email, this.password)
-        .then(async res => {
-          console.log(res);
-          if (res.user) {
-            // here we will look if the user that logs in, if his
-            // uid matches with the id's in the db
-            // As while signing up we have stored his uid as id in db
-            await firebase
-              .firestore()
-              .collection("users")
-              .where("id", "==", res.user.uid)
-              .get()
-              .then(querySnapshot => {
-                // console.log("query", querySnapshot);
-                querySnapshot.forEach(doc => {
-                  let userData = doc.data();
-                  localStorage.setItem("id", userData.id);
-                  localStorage.setItem("name", userData.name);
-                  localStorage.setItem("email", userData.email);
-                  localStorage.setItem("password", userData.password);
-                  localStorage.setItem("FirebaseDocumentId", doc.id);
-                });
-              });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-  },
-  // created() {
-  //   if (localStorage.getItem("id")) this.$router.push("/chat");
-  // }
-};
+<script setup>
+import { ref } from 'vue'
+import firebase from 'firebase/app'
+import { useRouter } from 'vue-router' // import router
+
+const email = ref('')
+const password = ref('')
+const message = ref('')
+const router = useRouter() // get a reference to our vue router
+const signIn = () => { // we also renamed this method 
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(email.value, password.value) // THIS LINE CHANGED
+    .then((data) => {
+      console.log('Successfully logged in!');
+      console.log("User: ", data);
+      router.push('/Chatroom') // redirect to the feed
+    })
+    .catch(error => {
+      console.log(error.code)
+      alert(error.message);
+    })
+}
 </script>
 
 

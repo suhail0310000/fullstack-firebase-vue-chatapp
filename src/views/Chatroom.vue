@@ -85,7 +85,7 @@
           </div> -->
           <div class="inbox_chat">
             <div class="chat_list active_chat" style="border-top:solid black 2px;" v-for="user in allUsers" :key="user.id">
-                <i class="material-icons" @click="getUser(user.id)">delete</i>
+                <i class="material-icons" @click="getUser(user.id)">{{ user.name }}</i>
                 <div class="chat_people">
                     <div class="chat_ib">
                         <h5>{{ user.displayName }}</h5>
@@ -99,8 +99,7 @@
         <div class="mesgs">
           <div class="msg_history">
             <div class="mesgs" v-if="profile">
-              <h2>Test</h2>
-              <h5>Click on a user to chat with {{ profile.name }}</h5>
+              <h5>Test: Welcome to your chat with {{ profile.name }}</h5>
             </div>
             <!-- <div v-for="message in messages" :key="message" class="incoming_msg">
 
@@ -132,7 +131,7 @@ import { useRouter } from 'vue-router'
 import { onBeforeUnmount } from 'vue'
 import { projectFirestore } from '../main'
 
-//const router = useRouter()
+//const router = useRouter({mode: 'history', router})
 //const authListener = firebase.auth().onAuthStateChanged(function(user) {
 //    if (!user) { // not logged in
 //        alert('you must be logged in to view this. redirecting to the home page')
@@ -154,6 +153,7 @@ export default {
             profile: null,
             allUsers:[],
             authUser:{}
+            
         }
     },  
 
@@ -241,7 +241,6 @@ export default {
       next(vm=>{
 
         firebase.auth().onAuthStateChanged(user=>{
-
           if(user){
             next();
           }else{
