@@ -145,7 +145,7 @@ import { projectFirestore } from '../main'
 //})
 
 export default {
-    name: 'chatroom',
+    name: 'Chatroom',
 
     data(){
         return {
@@ -158,9 +158,9 @@ export default {
     },  
 
     methods:{
-      getUser(id){
-        console.log(id);
-        this.$router.push({name: 'Chatroom', params: { id: id }})
+      getUser(idd){
+        console.log(idd);
+        this.$router.push({name: 'Chatroom', params: { id: idd }})
         //this.$router.push({name: 'Chatroom', params: { id: id}})
 
 
@@ -249,6 +249,8 @@ export default {
             vm.$router.push('/SignIn')
           }
         })
+
+        
       })
     }
 }

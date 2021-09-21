@@ -28,10 +28,13 @@ const isLoggedIn = ref(true)
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       isLoggedIn.value = true // if we have a user
+      console.log(user);
     } else {
       isLoggedIn.value = false // if we do not
+      console.log(user);
     }
 })
+
 const signOut = () => {
   firebase.auth().signOut()
   router.push('/SignIn')
