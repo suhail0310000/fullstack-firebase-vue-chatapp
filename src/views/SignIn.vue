@@ -21,7 +21,7 @@ const signIn = () => { // we also renamed this method
     .then((data) => {
       console.log('Successfully logged in!');
       console.log("User: ", data);
-      router.push('/chatroom') // redirect to the feed
+      router.push('/Chatroom') // redirect to the feed
     })
     .catch(error => {
       console.log(error.code)

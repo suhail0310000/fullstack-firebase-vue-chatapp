@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Chatroom from '../views/Chatroom.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -15,10 +16,20 @@ const router = createRouter({
       path: '/Chatroom',
       component: () => import('../views/Chatroom.vue')
     },
+    
+    // {
+    //   path: '/profile/:id',
+    //   name: 'profile',
+    //   component: profile,
+    // },
+    
+    //fungerer
     {
-      path: '/userlist',
-      component: () => import('../views/Userlist.vue')
-    }
+      path: '/Chatroom/:id',
+      name: 'chatbox',
+      component: () => import('../views/Chatroom.vue')
+    },
+
   ]
 })
 
