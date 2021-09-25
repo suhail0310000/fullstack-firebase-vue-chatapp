@@ -234,7 +234,6 @@ export default {
       
       this.fetchMessages();
     },
-
     //If the user is logged in, redirect to chatroom
     beforeRouteEnter(to,from,next) {
       next(vm=>{

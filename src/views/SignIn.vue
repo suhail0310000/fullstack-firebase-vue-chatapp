@@ -1,8 +1,36 @@
 <template>
-    <h1> Login to Your Account </h1>
+    <!--<h1> Login to Your Account </h1>
     <p> <input type='text' placeholder="Email" v-model='email'/> </p>
     <p> <input type='password' placeholder="Password" v-model='password'/> </p>
-    <p> <button @click="signIn"> Submit </button> </p>
+    <p> <button @click="signIn"> Submit </button> </p>-->
+  <div class="mt-4">
+    <h2>Login to your account</h2>
+    <form class="detail-box my-5">
+      <div class="form-group my-3">
+        <input
+          type="text"
+          v-model="email"
+          class="form-control mb-4"
+          placeholder="Enter your email..."
+        />
+        <input
+          type="password"
+          v-model="password"
+          class="form-control mb-4"
+          placeholder="Enter your password..."
+        />
+        <router-link :to="{ path: '/' }">
+          <h6 class="mb-3" style="font-weight: 600">Back to register</h6>
+        </router-link>
+        <button
+          style="font-weight: 600"
+          type="button"
+          v-on:click="signIn"
+          class="btn btn-primary"
+        >Login</button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script setup>
@@ -30,10 +58,25 @@ const signIn = () => { // we also renamed this method
 }
 </script>
 
-
-
-
-
+<style scoped >
+input[type="text"],
+input[type="password"] {
+  margin: 0 auto;
+  width: 80%;
+}
+.detail-box {
+  padding: 5px;
+  border: 1px solid lightgrey;
+  width: 400px;
+  min-height: 250px;
+  margin: 0 auto;
+}
+h2,
+h4 {
+  color: dodgerblue;
+  font-weight: 600;
+}
+</style>
 
 
 

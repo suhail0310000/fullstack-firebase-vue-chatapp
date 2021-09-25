@@ -22,7 +22,7 @@
           class="form-control mb-4"
           placeholder="Enter your password..."
         />
-        <router-link :to="{ path: '/' }">
+        <router-link :to="{ path: '/signin' }">
           <h6 class="mb-3" style="font-weight: 600">Back to login</h6>
         </router-link>
         <button
