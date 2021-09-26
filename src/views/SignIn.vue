@@ -37,7 +37,6 @@
 import { ref } from 'vue'
 import firebase from 'firebase/app'
 import { useRouter } from 'vue-router' // import router
-
 const email = ref('')
 const password = ref('')
 const message = ref('')
@@ -77,12 +76,3 @@ h4 {
   font-weight: 600;
 }
 </style>
-
-
-
-
-
-
-
-
-

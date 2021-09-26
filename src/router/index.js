@@ -20,7 +20,7 @@ const router = createRouter({
     // {
     //   path: '/profile/:id',
     //   name: 'profile',
-    //   component: profile,
+    //   component: () => import('../views/profile.vue'),
     // },
     
     //fungerer
@@ -28,6 +28,7 @@ const router = createRouter({
       path: '/Chatroom/:id',
       name: 'chatbox',
       component: () => import('../views/Chatroom.vue')
+      // component: () => import('../views/Chatroom.vue')
     },
 
   ]

@@ -22,9 +22,9 @@
           class="form-control mb-4"
           placeholder="Enter your password..."
         />
-        <router-link :to="{ path: '/signin' }">
+        <!-- <router-link :to="{ path: '/' }">
           <h6 class="mb-3" style="font-weight: 600">Back to login</h6>
-        </router-link>
+        </router-link> -->
         <button
           style="font-weight: 600"
           type="button"
@@ -58,7 +58,7 @@ export default {
         .createUserWithEmailAndPassword(email, password)
         .then(async res => {
           console.log("res", res);
-          // once we get the res from db then only we will save data to ls so that our local and db are in sync
+          //save data to ls so that our local and db are in sync
           await firebase
             .firestore()
             .collection("users")
@@ -70,11 +70,11 @@ export default {
             })
             .then(ref => {
               //trengs ikke forløpig
-              // localStorage.setItem("id", res.user.uid);
-              // localStorage.setItem("name", name);
-              // localStorage.setItem("email", email);
-              // localStorage.setItem("password", password);
-              // localStorage.setItem("FirebaseDocumentId", ref.id);
+              localStorage.setItem("id", res.user.uid);
+              localStorage.setItem("name", name);
+              localStorage.setItem("email", email);
+              localStorage.setItem("password", password);
+              localStorage.setItem("FirebaseDocumentId", ref.id);
               this.name = "";
               this.email = "";
               this.password = "";
@@ -110,8 +110,3 @@ h4 {
   font-weight: 600;
 }
 </style>
-
-
-
-
-

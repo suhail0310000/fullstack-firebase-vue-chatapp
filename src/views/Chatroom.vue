@@ -11,78 +11,6 @@
               <h6>Your logged in as: {{ authUser.email }}</h6>
             </div>
           </div>
-          <!-- <div class="inbox_chat">
-            <div class="chat_list active_chat">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
-            <div class="chat_list">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
-            <div class="chat_list">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
-            <div class="chat_list">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
-            <div class="chat_list">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
-            <div class="chat_list">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
-            <div class="chat_list">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
-          </div> -->
           <div class="inbox_chat">
             <div class="chat_list active_chat" style="border-top:solid black 2px;" v-for="user in allUsers" :key="user.id">
                 <i class="material-icons" @click="getUser(user.id)">{{ user.name }}</i>
@@ -100,24 +28,46 @@
           <div class="msg_history">
             <div class="mesgs" v-if="profile">
               <h5>Test: Welcome to your chat with {{ profile.name }}</h5>
-            </div>
-            <!-- <div v-for="message in messages" :key="message" class="incoming_msg">
+              <ul class="chat collection"> 
+                <li v-for="message in messages" :key="message.id"> <h1>{{ message.from }} {{ message.timestamp }}</h1> </li>
+                
+              </ul>
+              <!--<form @submit.prevent="addComment">
+                <div class="field">
+                  <label for="message">Skriv en melding </label>
+                  <input type="text" name="message" v-model="newMessage">
+                  <p v-if="feedback" class="red-text center">{{ feedback }}</p>
+                </div>
+              </form>-->
 
-              <div :class="[message.author===authUser.displayName?'sent_msg':'received_msg']">
-                <div class="received_withd_msg">
-                  <p>{{message.message}}</p>
-                  <span class="time_date"> {{ message.author }}</span></div>
-              </div>
-            </div> -->
-            
+              <!--Fungerer -->
+              <!--<form @submit.prevent="addMessage">
+                <div class="field">
+                  <input type="text" name="message" v-model="newMessage" placeholder="Type a message">
+                  <p v-if="feedback" class="red-text center">{{ feedback }}</p>
+                </div>
+              </form>-->
+
+
+
+               <form @submit.prevent="addMessage">
+                <div class="field" style="margin-top:350px;">
+                  <div class="input_msg_write">
+                    <input type="text" name="message" v-model="message" class="write_msg" placeholder="Type a message">
+                    <p v-if="feedback" class="red-text center">{{ feedback }}</p>
+                    <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+                  </div>
+                </div>
+              </form>            
+            </div>  
           </div>
 
-          <div class="type_msg">
+          <!--<div class="type_msg">
             <div class="input_msg_write">
               <input @keyup.enter="saveMessage" v-model="message" type="text" class="write_msg" placeholder="Type a message" />
               <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
             </div>
-          </div>
+          </div>-->
         </div> 
       </div>
             
@@ -131,49 +81,26 @@ import { useRouter } from 'vue-router'
 import { onBeforeUnmount } from 'vue'
 import { projectFirestore } from '../main'
 
-//const router = useRouter({mode: 'history', router})
-//const authListener = firebase.auth().onAuthStateChanged(function(user) {
-//    if (!user) { // not logged in
-//        alert('you must be logged in to view this. redirecting to the home page')
-//        router.push('/')
-//    }
-//})
-//onBeforeUnmount(() => {
-//     clear up listener
-//    authListener()
-//})
-
 export default {
     name: 'chatroom',
-
     data(){
         return {
-            message:null,
+            message: null, //bytt til messages, dersom du får null
+            feedback:null,
+            //message:null,
             messages:[],
             profile: null,
             allUsers:[],
-            authUser:{}
-            
+            authUser:{},
+            currentUser:null
         }
     },  
-
     methods:{
       getUser(id){
         console.log(id);
         this.$router.push({ name: 'chatbox', params: { id: id }});
-        //this.$router.push('/')
-        
-
-        //this.$router.push({path: '/Profile', params: { id: id }});
-        
-        // this.$router.push('/Chatroom', { params: { id: id }});
-          // this.smoothies = this.smoothies.filter(smoothie=>{
-          //     return smoothie.id != id;
-          // })
       },
-      // fetchOneUser(id){
-      //   console.log(id);
-      // },
+     
       fetchUsers(){
         projectFirestore.collection('users').get().then(users =>{
           users.docs.forEach(doc => {
@@ -184,35 +111,37 @@ export default {
           })
         })
       },
-
-      saveMessage(){
-          //save to firestore
+      addMessage(){
+        console.log("reagerer");
+        if(this.message){
+          this.feedback = null;
           projectFirestore.collection('chat').add({
-              message:this.message,
-              author:this.authUser.email, //Display email
-              createdAt: new Date()
+            to: this.$route.params.id,
+            from: this.authUser.email,
+            description: this.message,
+            time: Date.now(),
+            }).then(()=>{
+            this.message = null;
           })
-          this.message=null;
-      },
-
-      //List all messages
-      fetchMessages(){
-          projectFirestore.collection('chat').orderBy('createdAt').onSnapshot((querySnapshot)=>{
-              let allMessages=[];
-              querySnapshot.forEach(doc=>{
-                  allMessages.push(doc.data())
-              })
-              this.messages=allMessages; 
-              //console.log("HEER",this.messages);
-              //.log("etter",allMessages);
-
-          })
+        }else{
+          this.feedback = "Skriv inn noe for å legge til melding"
         }
-    },
+      }},
 
     //When the user is created
     created(){
       let referenceUser = projectFirestore.collection('users')
+
+      //TRENGS KANKSJE IKKE FJERN,viktig!!!
+      //referenceUser.where("id", "==", firebase.auth().currentUser.uid).get()
+
+      /*.then(snapshot => {
+        snapshot.forEach(doc => {
+          this.currentUser = doc.data(),
+          this.currentUser.id = doc.id
+        })
+      })*/
+      
       referenceUser.doc(this.$route.params.id).get()
       .then(user => {
         console.log("nyeeee",user.data());
@@ -221,6 +150,32 @@ export default {
         console.log("profile",this.profile);
       });
 
+      //List messages in different rooms
+      console.log("PARAAAAM",this.$route.params.id)
+      projectFirestore.collection('chat').where('to', '==', this.$route.params.id)
+      .onSnapshot((snapshot)=>{
+        console.log("inne i forløkke");
+        snapshot.docChanges().forEach(change=>{
+          console.log("Change",change);
+          if(change.type == 'added'){
+            let doc = change.doc;
+            console.log("OPPPPS! Ny melding",doc.data());
+            console.log("Melding fra:", doc.data().from)
+            console.log("Melding til:", doc.data().to)
+            console.log("Meldings beskrivelse:", doc.data().description)
+            console.log("Meldings tid:", doc.data().time)
+            this.messages.unshift({
+              from: doc.data().from,
+              to: doc.data().to,
+              description: doc.data().description,
+              time: doc.data().time
+            }) //unshift, fra starten av array tilslutten
+          }
+        })
+      })
+
+      //Messages
+      
       this.fetchUsers();
       // this.fetchUsers();
       // this.fetchOneUser();
@@ -232,25 +187,21 @@ export default {
         }
       })
       
-      this.fetchMessages();
     },
     //If the user is logged in, redirect to chatroom
     beforeRouteEnter(to,from,next) {
       next(vm=>{
-
         firebase.auth().onAuthStateChanged(user=>{
           if(user){
             next();
           }else{
             alert('you must be logged in to view this. Redirecting you to the login view')
-            vm.$router.push('/SignIn')
+            vm.$router.push('/signIn')
           }
         })
       })
     }
 }
-
-
   
 </script>
 
@@ -269,8 +220,6 @@ img{ max-width:100%;}
   overflow: hidden;
 }
 .top_spac{ margin: 20px 0 0;}
-
-
 .recent_heading {float: left; width:40%;}
 .srch_bar {
   display: inline-block;
@@ -278,7 +227,6 @@ img{ max-width:100%;}
   width: 60%;
 }
 .headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
-
 .recent_heading h4 {
   color: #05728f;
   font-size: 21px;
@@ -293,7 +241,6 @@ img{ max-width:100%;}
   font-size: 18px;
 }
 .srch_bar .input-group-addon { margin: 0 0 0 -27px;}
-
 .chat_ib h5{ font-size:15px; color:#464646; margin:0 0 8px 0;}
 .chat_ib h5 span{ font-size:13px; float:right;}
 .chat_ib p{ font-size:14px; color:#989898; margin:auto}
@@ -306,7 +253,6 @@ img{ max-width:100%;}
   padding: 0 0 0 15px;
   width: 88%;
 }
-
 .chat_people{ overflow:hidden; clear:both;}
 .chat_list {
   border-bottom: 1px solid #c4c4c4;
@@ -314,9 +260,7 @@ img{ max-width:100%;}
   padding: 18px 16px 10px;
 }
 .inbox_chat { height: 550px; overflow-y: scroll;}
-
 .active_chat{ background:#ebebeb;}
-
 .incoming_msg_img {
   display: inline-block;
   width: 6%;
@@ -348,7 +292,6 @@ img{ max-width:100%;}
   padding: 30px 15px 0 25px;
   width: 60%;
 }
-
  .sent_msg p {
   background: #05728f none repeat scroll 0 0;
   border-radius: 3px;
@@ -370,8 +313,8 @@ img{ max-width:100%;}
   min-height: 48px;
   width: 100%;
 }
-
-.type_msg {border-top: 1px solid #c4c4c4;position: relative;}
+.field {border-top: 1px solid #c4c4c4;position: relative;}
+/*.type_msg {border-top: 1px solid #c4c4c4;position: relative;}*/
 .msg_send_btn {
   background: #05728f none repeat scroll 0 0;
   border: medium none;

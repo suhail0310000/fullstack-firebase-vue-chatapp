@@ -7,7 +7,7 @@
       </span>
       <span v-else>
         <router-link to='/'> Register </router-link> |
-        <router-link to='/SignIn'> Login </router-link>
+        <router-link to='/signIn'> Login </router-link>
       </span>
     </nav>
       
@@ -28,13 +28,16 @@ const isLoggedIn = ref(true)
 firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       isLoggedIn.value = true // if we have a user
+      console.log(user);
     } else {
       isLoggedIn.value = false // if we do not
+      console.log(user);
     }
 })
+
 const signOut = () => {
   firebase.auth().signOut()
-  router.push('/SignIn')
+  router.push('/signIn')
 }
 </script>
 <style>
