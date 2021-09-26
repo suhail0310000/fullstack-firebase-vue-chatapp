@@ -29,8 +29,9 @@
             <div class="mesgs" v-if="profile">
               <h5>Test: Welcome to your chat with {{ profile.name }}</h5>
               <ul class="chat collection"> 
-                <li v-for="message in messages" :key="message.id"> <h1>{{ message.from }} {{ message.timestamp }}</h1> </li>
-                
+                <!--<li v-for="message in messages" :key="message.id"> <h1>{{ message.from }} {{ message.description }}</h1> </li>-->
+                <li v-for="(message,index) in messages" :key="index"> <h6>{{ message.from }} {{ message.description }}</h6> </li>
+                <!--<li v-for="(message, index) in messages" v-bind:key="index" :class="['message', sentOrReceived()]"> <h1>{{ message.from }} {{ message.timestamp }}</h1> </li>-->
               </ul>
               <!--<form @submit.prevent="addComment">
                 <div class="field">
@@ -98,9 +99,113 @@ export default {
             currentUser:null
         }
     },  
+
+    mounted(){
+    //   console.log("PARAAAAM",this.$route.params.id);
+    //   projectFirestore.collection('messages').onSnapshot((snapshot)=>{
+    //     console.log("message");
+    //     snapshot.docChanges().forEach(change =>{
+    //       console.log("inne i for lopp")
+    //       if(change.type=="added"){
+    //         console.log("added");
+    //         let doc = change.doc;
+    //         console.log("doc data: ",doc.data())
+    //         console.log("Melding blir sendt til:",doc.id)
+    //         console.log("Melding blir sendt til:",doc.description)
+    //         console.log("mer info:",this.authUser.email)
+    //         console.log("Epost:",this.messages)
+    //         console.log("TId melding ble sendt:",Date.now())
+    //       }
+    //     })
+    //   })
+    // }
+    
+      // projectFirestore.collection('messages').onSnapshot((snapshot)=>{
+      //   snapshot.docChanges().forEach((change({
+
+      //   })
+      // })
+    //   get().then(messages =>{
+    //       messages.docs.forEach(doc => {
+    //         let message = doc.data()
+    //         console.log(message);
+    //         // user.id = doc.id; //Iden over mot autogenerert id
+    //         this.allUsers.unshift(message);
+    //       })
+    //       console.log("ALLE BRUKERE:",this.allUsers);
+    //     })
+    // },
+
+
+
+
+
+    //   projectFirestore.collection('chat')
+    //   snapshot.docChanges().forEach(change => {
+    //     if(change.type == "added"){
+    //       let doc = change.doc;
+    //         console.log("doc data: ",doc.data())
+    //         console.log("Melding blir sendt til:",doc.id)
+    //         console.log("Melding blir sendt til:",doc.description)
+    //         console.log("mer info:",this.authUser.email)
+    //         console.log("Epost:",this.messages)
+    //         console.log("TId melding ble sendt:",Date.now())
+    //     })
+    //   }
+    // },
+
+
+
+      
+    // },
+
+
+      // .onSnapshot((snapshot)=>{
+      //   console.log("inne i forløkke");
+      //   this.messages = snapshot.docs.map(doc => doc.data());
+        
+      //   console.log("Alle meldinger",this.messages);
+
+
+
+
+
+
+
+
+        // snapshot.docChanges().forEach(change=>{
+        //   console.log("Change",change);
+        //   if(change.type == 'added'){
+        //     let doc = change.doc;
+        //     console.log("OPPPPS! Ny melding",doc.data());
+        //     console.log("Melding fra:", doc.data().from)
+        //     console.log("Melding til:", doc.data().to)
+        //     console.log("Meldings beskrivelse:", doc.data().description)
+        //     console.log("Meldings tid:", doc.data().time)
+        //     this.messages.unshift({
+        //       from: doc.data().from,
+        //       to: doc.data().to,
+        //       description: doc.data().description,
+        //       time: doc.data().time
+        //     }) //unshift, fra starten av array tilslutten
+        //   }
+        // })
+      // })
+
+
+
+
+    },
+    
     methods:{
+      sentOrReceived(id){
+        console.log(this.authuser.id);
+        return id === this.$router.params.id? 'sent' : 'received'
+      },
+      // sentOrReceived(userID){
+      //   return userID === this.user.id;
+      // },
       getUser(id){
-        console.log(id);
         this.$router.push({ name: 'chatbox', params: { id: id }});
       },
      
@@ -110,12 +215,12 @@ export default {
             let user = doc.data()
             user.id = doc.id; //Iden over mot autogenerert id
             this.allUsers.push(user);
-            console.log("data",doc.data(),doc.id);
           })
+          console.log("ALLE BRUKERE:",this.allUsers);
         })
       },
       addMessage(){
-        console.log("reagerer");
+        console.log("inne i add message");
         if(this.message){
           this.feedback = null;
           projectFirestore.collection('chat').add({
@@ -147,35 +252,39 @@ export default {
       
       referenceUser.doc(this.$route.params.id).get()
       .then(user => {
-        console.log("nyeeee",user.data());
         this.profile = user.data();
-        console.log("skal fungere");
-        console.log("profile",this.profile);
       });
 
-      //List messages in different rooms
-      console.log("PARAAAAM",this.$route.params.id)
-      projectFirestore.collection('chat').where('to', '==', this.$route.params.id)
-      .onSnapshot((snapshot)=>{
-        console.log("inne i forløkke");
-        snapshot.docChanges().forEach(change=>{
-          console.log("Change",change);
-          if(change.type == 'added'){
+      
+
+      projectFirestore.collection('chat')
+        .onSnapshot((snapshot) => {
+          snapshot.docChanges().forEach(change => {
             let doc = change.doc;
-            console.log("OPPPPS! Ny melding",doc.data());
-            console.log("Melding fra:", doc.data().from)
-            console.log("Melding til:", doc.data().to)
-            console.log("Meldings beskrivelse:", doc.data().description)
-            console.log("Meldings tid:", doc.data().time)
-            this.messages.unshift({
-              from: doc.data().from,
-              to: doc.data().to,
-              description: doc.data().description,
-              time: doc.data().time
-            }) //unshift, fra starten av array tilslutten
-          }
+            if(doc.data().to == this.$route.params.id){
+              if(change.type=='added'){
+              console.log("added");
+              console.log("stemmer");
+              console.log("doc data: ",doc.data())
+              console.log("Melding blir sendt til:",doc.data().to)
+              console.log("Beskrivelse:",doc.data().description)
+              console.log("Melding email:",this.authUser.email)
+              console.log("TId melding ble sendt:",Date.now())
+              this.messages.unshift({
+                from: doc.data().from,
+                to: doc.data().to,
+                description: doc.data().description,
+                time: Date.now()
+              })
+              console.log("Alle meldinger:",this.messages);
+              }
+            }
+          })
         })
-      })
+    
+
+      //List messages in different rooms
+    
 
       //Messages
       
@@ -203,6 +312,7 @@ export default {
           }
         })
       })
+
     }
 }
   
